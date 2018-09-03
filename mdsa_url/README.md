@@ -40,6 +40,6 @@ Hash massive files into small files that are readable by memory.
 C++ lists all the files in the directory.
 
 - `set_file.cpp`
-Use set to find the union and get the same URL in the small file.
+Use set to find the set_intersection and get the same URL in the small file.
 
 
