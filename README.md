@@ -1,3 +1,1 @@
-# mdsa
-## msda_url
-The project mainly solves the problem of searching for the same IP in massive files.
+一些编程技巧，常用算法，对数据处理、计算、自动推理。
