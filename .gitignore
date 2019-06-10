@@ -42,3 +42,6 @@ cmake_install.cmake
 
 # .DS_Store
 .DS_Store
+
+# .out
+.out
