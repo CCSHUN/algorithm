@@ -140,7 +140,12 @@ struct my_int_delete {
 };
 
 int main(int argc, char const *argv[]) {
-    std2::unique_ptr<int, decltype(my_int_delete())> ptr1{ new int(5) , my_int_delete() };
+    auto my_int_delete = [] (int* p) { 
+        std::cout << "my int delete called" << std::endl; 
+        delete p; 
+    };
+
+    std2::unique_ptr<int, decltype(my_int_delete)> ptr1{ new int(5) , my_int_delete };
     std::cout << "ptr1 = " << *ptr1 << std::endl;
 
     std2::unique_ptr<int[]> ptr2{ new int[10] };
@@ -152,5 +157,7 @@ int main(int argc, char const *argv[]) {
 
 
 /**
+ * $ g++ -std=c++11 unique_ptr.cpp 
+ * $ ./a.out
  * http://senlinzhan.github.io/2015/04/20/%E8%B0%88%E8%B0%88C-%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/
  */
