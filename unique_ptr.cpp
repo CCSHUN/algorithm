@@ -139,8 +139,8 @@ private:
   
 
 template<typename T, typename... Ts>
-std::unique_ptr<T> make_unique(Ts&&... params) {
-    return std::unique_ptr<T>(new T(std::forward<Ts>(params)...));
+std2::unique_ptr<T> make_unique(Ts&&... args) {
+    return std2::unique_ptr<T>(new T(std::forward<Ts>(args)...));
 }
 
 }//namespace std2 end
@@ -162,6 +162,9 @@ int main(int argc, char const *argv[]) {
     std2::unique_ptr<int> ptr4(std::move(ptr3));
     std2::unique_ptr<int> ptr5 = std::move(ptr4);
     std::cout << "ptr5 = " << *ptr5 << std::endl;
+
+    std2::unique_ptr<int> ptr6 = std2::make_unique<int>(886);
+    std::cout << "ptr6 = " << *ptr6 << std::endl;
 
     return 0;
 }
