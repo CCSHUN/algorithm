@@ -24,8 +24,16 @@ public:
 
     unique_ptr(const unique_ptr&) = delete;
     unique_ptr& operator=(const unique_ptr&) = delete;
-    unique_ptr(unique_ptr&&) noexcept;
-    unique_ptr& operator=(unique_ptr&&) noexcept;
+    unique_ptr(unique_ptr&& rhs) noexcept
+        : ptr_(rhs.release(), rhs.ptr_.second) {
+
+    }
+    unique_ptr& operator=(unique_ptr&& rhs) noexcept {
+        if (this != &rhs) {
+            reset(rhs.release());
+        }
+        return *this;
+    }
 
     T& operator*() const noexcept {
         return *ptr_.first;
@@ -88,8 +96,16 @@ public:
 
     unique_ptr(const unique_ptr&) = delete;
     unique_ptr& operator=(const unique_ptr&) = delete;
-    unique_ptr(unique_ptr&&) noexcept;
-    unique_ptr& operator=(unique_ptr&&) noexcept;
+    unique_ptr(unique_ptr&& rhs) noexcept
+        : ptr_(rhs.release(), rhs.ptr_.second) {
+
+    }
+    unique_ptr& operator=(unique_ptr&& rhs) noexcept {
+        if (this != &rhs) {
+            reset(rhs.release());
+        }
+        return *this;
+    }
 
     T& operator[](size_t i) const noexcept {
         return ptr_.first[i];//maybe out range index
@@ -137,10 +153,15 @@ int main(int argc, char const *argv[]) {
 
     std2::unique_ptr<int, decltype(my_int_delete)> ptr1{ new int(5) , my_int_delete };
     std::cout << "ptr1 = " << *ptr1 << std::endl;
-
+    
     std2::unique_ptr<int[]> ptr2{ new int[10] };
     ptr2[3] = 9;
     std::cout << "ptr2[3] = " << ptr2[3] << std::endl;
+
+    std2::unique_ptr<int> ptr3{ new int(123) };
+    std2::unique_ptr<int> ptr4(std::move(ptr3));
+    std2::unique_ptr<int> ptr5 = std::move(ptr4);
+    std::cout << "ptr5 = " << *ptr5 << std::endl;
 
     return 0;
 }
