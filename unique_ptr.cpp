@@ -129,16 +129,6 @@ std::unique_ptr<T> make_unique(Ts&&... params) {
 
 }//namespace std2 end
 
-/**
- * Custom delete function, you can also use lambda syntax
- */
-struct my_int_delete {
-    void operator()(int* p) const noexcept {
-        std::cout << "my int delete called" << std::endl;
-        delete p;
-    }
-};
-
 int main(int argc, char const *argv[]) {
     auto my_int_delete = [] (int* p) { 
         std::cout << "my int delete called" << std::endl; 
