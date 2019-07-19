@@ -21,10 +21,10 @@ int tsp(vector<vector<int>>& city_dis) {
     }
 
     for (int u = 1; u < dp[0].size(); ++u) {
-        for (int i = 1; i < dp.size(); ++i) { 
+        for (int i = 0; i < dp.size(); ++i) { 
             if (0 == ((1<<(i-1)) & u)) { 
                 int min_dis = INT32_MAX;
-                for (int k = 1; k < size; ++k) {
+                for (int k = 1; k < size; ++k) { 
                     if (0 != ((1<<(k-1)) & u)) {
                         int temp = city_dis[i][k] + dp[k][u - (1<<(k-1))];
                         if (temp < min_dis) {
@@ -36,15 +36,6 @@ int tsp(vector<vector<int>>& city_dis) {
             }
         }
     }
-
-    int min_dis = INT32_MAX;
-    for (int k = 1; k < size; ++k) {
-        int temp = city_dis[0][k] + dp[k][dp[0].size()-1 - (1<<(k-1))];
-        if (temp < min_dis) {
-            min_dis = temp;
-        }
-    }
-    dp[0].back() = min_dis;
 
     for (auto& row : dp) {
         for (auto& val : row) {
