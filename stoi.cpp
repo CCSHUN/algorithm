@@ -21,6 +21,9 @@ int stoi(const string& str) {
     int res = 0;
      while (str[start] != '\0') {
         int number = (str[start++] - '0');
+        if (res > (INT_MAX - number) / 10) {
+            throw std::out_of_range("stoi: out of range");
+        }
         if (number >= 0 && number <= 9) {
             res *= 10;
             res += number;
@@ -35,7 +38,7 @@ int stoi(const string& str) {
 }
 
 int main(int argc, char const *argv[]) {
-    string s = " +0101 32 ";
+    string s = " +01017927394656386203848343456783468 32 ";
     cout << std2::stoi(s) << "   v.s   "<< std::stoi(s) << endl;
     
     return 0;
