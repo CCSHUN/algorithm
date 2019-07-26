@@ -65,8 +65,7 @@ private:
 private:
     char* ptr_;
     size_t size_;
-};
-
+};// class string
 
 string operator+ (const string& lhs, const string& rhs) {//more....
     if (rhs.size() <= 0) {
