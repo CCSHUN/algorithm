@@ -13,20 +13,20 @@ tree_node_t* construct(const char* start_prev_order, const char* end_prev_order,
                        const char* start_in_order, const char* end_in_order) {
     char root_value = start_prev_order[0];
     tree_node_t* root = new tree_node_t(root_value);
-    if (start_prev_order == end_prev_order) {
+    if (start_prev_order == end_prev_order) { //只剩下一个节点了
         if (start_in_order == end_in_order &&
-            start_prev_order[0] == start_in_order[0]) {
+            start_prev_order[0] == start_in_order[0]) { //必须剩余的值相同，否则throw
             return root;
         } else {
             throw std::invalid_argument("Invalid input");
         }
     }
 
-    const char* root_in_order = start_in_order;
+    const char* root_in_order = start_in_order; //在中序遍历结果中找到root_value
     while (root_in_order <= end_in_order && *root_in_order != root_value) {
         ++root_in_order;
     }
-
+    //如果中序遍历中不存在root_value，肯定throw
     if (root_in_order == end_in_order && *root_in_order != root_value) {
         throw std::invalid_argument("Invalid input");
     }
@@ -34,12 +34,12 @@ tree_node_t* construct(const char* start_prev_order, const char* end_prev_order,
     int left_length = root_in_order - start_in_order;
     const char* left_prev_end = start_prev_order + left_length;
     if (left_length > 0) {
-        root->left = construct(start_prev_order + 1, left_prev_end,
-                               start_in_order, root_in_order - 1);
+        root->left = construct(start_prev_order + 1, left_prev_end,//前序，左子树区间
+                               start_in_order, root_in_order - 1); //中序，左子树区间
     }
     if (left_length < end_prev_order - start_prev_order) {
-        root->right = construct(left_prev_end + 1, end_prev_order,
-                                root_in_order + 1, end_in_order);
+        root->right = construct(left_prev_end + 1, end_prev_order,//前序，右子树区间
+                                root_in_order + 1, end_in_order); //中序，右子树区间
     }
     return root;
 }
@@ -57,6 +57,7 @@ string generate_post_order(const string& pre_order, const string& in_order) {
         pre_order.size() != in_order.size()) {
         throw std::invalid_argument("Invalid input");
     }
+
     int length = pre_order.size();
     tree_node_t* root =
         construct(pre_order.c_str(), pre_order.c_str() + length - 1,
